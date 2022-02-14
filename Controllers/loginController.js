@@ -38,14 +38,6 @@ module.exports = login = async (req, res, next) => {
         } catch (err) {
           return res.status(500).send(err);
         }
-        // const JWT_KEY = process.env.JWT_KEY;
-        // const token = jwt.sign(
-        //   { useId: user._id, userName: user.name },
-        //   JWT_KEY
-        // );
-        // res
-        //   .status(200)
-        //   .send({ result: "User loged in", user: user, token: token });
       }
     }
   } catch (err) {
