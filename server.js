@@ -16,7 +16,10 @@ app.use(express.json());
 const server = http.createServer(app);
 
 mongoose
-  .connect(process.env.MONGODB_URL || dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGODB_URL || dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Database connection successful");
   })
@@ -24,6 +27,14 @@ mongoose
     console.error("Database connection error");
   });
 
+// Users CRUD
+// User Register
+const newUserRoute = require("./Routes/newUser");
+app.use("/api/register", newUserRoute);
+// User Login
+const loginRoute = require("./Routes/login");
+app.use("/api/login", loginRoute);
+
 server.listen(port, () => {
-  console.log(`listen to port at ${port}`);
+  console.log(`server is listening on ${port}`);
 });
