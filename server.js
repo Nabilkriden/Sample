@@ -28,9 +28,9 @@ mongoose
   });
 
 // Users CRUD
-// User Register
+// Inv User
 const newUserRoute = require("./Routes/newUser");
-app.use("/api/register", newUserRoute);
+app.use("/api/invite", newUserRoute);
 // User Login
 const loginRoute = require("./Routes/login");
 app.use("/api/login", loginRoute);

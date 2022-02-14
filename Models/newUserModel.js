@@ -6,11 +6,6 @@ var validateEmail = (email) => {
 };
 
 let newUserSchema = mongoose.Schema({
-  name: {
-    type: String,
-    trim: true,
-    required: "Name is required",
-  },
   email: {
     type: String,
     trim: true,
@@ -25,9 +20,9 @@ let newUserSchema = mongoose.Schema({
     minlength: [8, "Password must be at least 8 characters"],
     maxlength: [100, "Password is not allowed to exceed 100 characters"],
   },
-  code:{
+  code: {
     type: String,
-  }
+  },
 });
 
 var Users = mongoose.model("users", newUserSchema);

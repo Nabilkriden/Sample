@@ -1,6 +1,7 @@
 module.exports = codeGen = (type, length) => {
   let res = "";
-  let char = "AZERTYUIOPMLKJHGFDSQWXCVBNazertyuiopmlkjhgfdsqwxcvbn";
+  let char =
+    "AZERTYUIOPMLKJHGFDSQWXCVBNazertyuiopmlkjhgfdsqwxcvbn123456789&é/*-!:,";
   let numbers = "0123456789";
   let allChar = char.length;
   let allNumbers = numbers.length;

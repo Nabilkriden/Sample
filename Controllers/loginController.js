@@ -34,7 +34,7 @@ exports.login = async (req, res, next) => {
             { code: code }
           );
           if (addCode) {
-            res.send({ user: user }).status(200);
+            res.status(200).send({ result: "User loged In", user: user });
           }
         } catch (err) {
           return res.status(500).send(err);
