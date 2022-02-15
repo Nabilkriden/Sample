@@ -26,6 +26,16 @@ mongoose
   .catch((err) => {
     console.error("Database connection error");
   });
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, OPTIONS, POST, PUT, PATCH , DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  next();
+});
 
 // Users CRUD
 // Inv User

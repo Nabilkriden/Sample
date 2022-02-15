@@ -18,11 +18,12 @@ exports.login = async (req, res, next) => {
     const user = await Users.findOne({ email: email });
     if (!user) {
       res.status(400).send("Email or password is incorrect.");
+      return;
     }
     if (user) {
       const validPasswords = await bcrypt.compare(password, user.password);
       if (!validPasswords) {
-        res.status(400).send("Email or password is incorrect.");
+        return res.status(400).send("Email or password is incorrect.");
       }
       if (validPasswords) {
         const code = codeGen("Num", 8);
@@ -34,7 +35,7 @@ exports.login = async (req, res, next) => {
             { code: code }
           );
           if (addCode) {
-            res.status(200).send({ result: "User loged In", user: user });
+            res.status(200).send({ result: "Code send", code: user.code });
           }
         } catch (err) {
           return res.status(500).send(err);
@@ -73,4 +74,5 @@ exports.codeVerif = async (req, res, next) => {
   } catch (err) {
     res.status(500).send(err);
   }
+  next();
 };
