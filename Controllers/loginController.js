@@ -10,21 +10,17 @@ require("dotenv").config();
 // Login
 
 exports.login = async (req, res, next) => {
-  // Data
   const email = req.body.email;
   const password = req.body.password;
-
   try {
     const user = await Users.findOne({ email: email });
     if (!user) {
       return res.status(400).send("Email or password is incorrect.");
     }
     const validPasswords = await bcrypt.compare(password, user.password);
-
     if (user && validPasswords) {
       const code = codeGen("Num", 8);
       mailer(email, "Simple Login ", `This is your code ${code}`);
-
       try {
         const addCode = await Users.findOneAndUpdate(
           { email: email },
@@ -56,7 +52,7 @@ exports.codeVerif = async (req, res, next) => {
       try {
         const JWT_KEY = process.env.JWT_KEY;
         const token = jwt.sign(
-          { userId: user._id, userName: user.name },
+          { userId: user._id, userName: user.name, role: user.role },
           JWT_KEY
         );
         res

@@ -23,7 +23,7 @@ mongoose
   .then(() => {
     console.log("Database connection successful");
   })
-  .catch((err) => {
+  .catch(() => {
     console.error("Database connection error");
   });
 app.use((req, res, next) => {
@@ -37,8 +37,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Users CRUD
-// Inv User
+// Inv Users
 const newUserRoute = require("./Routes/newUser");
 app.use("/api/invite", newUserRoute);
 // User Login

@@ -14,6 +14,7 @@ module.exports = addUser = async (req, res, next) => {
   //  User Data
   const email = req.body.email;
   const password = hashPassword;
+  const role = req.body.role;
   // send password
   try {
     await mailer(
@@ -30,6 +31,7 @@ module.exports = addUser = async (req, res, next) => {
     const newUser = await Users.create({
       email: email,
       password: password,
+      role: role,
     });
     if (newUser) {
       res
