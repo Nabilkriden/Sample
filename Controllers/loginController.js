@@ -36,15 +36,11 @@ exports.codeVerif = async (req, res, next) => {
   try {
     const user = await Users.findOne({ email: email });
     if (user && user.code === code) {
-      try {
-        const JWT_KEY = process.env.JWT_KEY;
-        const token = jwt.sign({ userId: user._id, userName: user.name, role: user.role }, JWT_KEY, {
-          expiresIn: "24h",
-        });
-        res.send({ result: "user loged in", user: user, token: token }).status(200);
-      } catch (err) {
-        res.send({ err }).status(500);
-      }
+      const JWT_KEY = process.env.JWT_KEY;
+      const token = jwt.sign({ userId: user._id, userName: user.name, role: user.role }, JWT_KEY, {
+        expiresIn: "24h",
+      });
+      res.send({ result: "user loged in", user: user, token: token }).status(200);
     } else {
       return res.status(401).send({ err: "Faild To Login" });
     }
