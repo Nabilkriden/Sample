@@ -22,10 +22,7 @@ exports.login = async (req, res, next) => {
       const code = codeGen("Num", 8);
       mailer(email, "Simple Login ", `This is your code ${code}`);
       try {
-        const addCode = await Users.findOneAndUpdate(
-          { email: email },
-          { code: code }
-        );
+        const addCode = await Users.findOneAndUpdate({ email: email }, { code: code });
         if (addCode) {
           res.status(200).send({
             result: "Verification Code Sent Successfully",
@@ -51,13 +48,10 @@ exports.codeVerif = async (req, res, next) => {
     if (user && user.code === code) {
       try {
         const JWT_KEY = process.env.JWT_KEY;
-        const token = jwt.sign(
-          { userId: user._id, userName: user.name, role: user.role },
-          JWT_KEY
-        );
-        res
-          .send({ result: "user loged in", user: user, token: token })
-          .status(200);
+        const token = jwt.sign({ userId: user._id, userName: user.name, role: user.role }, JWT_KEY, {
+          expiresIn: "24h",
+        });
+        res.send({ result: "user loged in", user: user, token: token }).status(200);
       } catch (err) {
         res.send({ err }).status(500);
       }

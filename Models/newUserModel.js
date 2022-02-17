@@ -29,6 +29,4 @@ let newUserSchema = mongoose.Schema({
   },
 });
 
-var Users = mongoose.model("users", newUserSchema);
-
-module.exports = Users;
+module.exports = mongoose.model("users", newUserSchema);
