@@ -14,27 +14,17 @@ exports.login = async (req, res, next) => {
   const password = req.body.password;
   try {
     const user = await Users.findOne({ email: email });
-    if (!user) {
-      return res.status(400).send("Email or password is incorrect.");
-    }
+    if (!user) return res.status(400).send("Email or password is incorrect.");
     const validPasswords = await bcrypt.compare(password, user.password);
-    if (user && validPasswords) {
-      const code = codeGen("Num", 8);
-      mailer(email, "Simple Login ", `This is your code ${code}`);
-      try {
-        const addCode = await Users.findOneAndUpdate({ email: email }, { code: code });
-        if (addCode) {
-          res.status(200).send({
-            result: "Verification Code Sent Successfully",
-            code: user.code,
-          });
-        }
-      } catch (err) {
-        return res.status(500).send(err);
-      }
-    } else {
-      return res.status(400).send("Email or password is incorrect.");
-    }
+    if (!validPasswords) return res.status(400).send("Email or password is incorrect.");
+    const code = codeGen("Num", 8);
+    mailer(email, "Simple Login ", `This is your code ${code}`);
+    const addCode = await Users.findOneAndUpdate({ email: email }, { code: code });
+    addCode &&
+      res.status(200).send({
+        result: "Verification Code Sent Successfully",
+        code: user.code,
+      });
   } catch (err) {
     return res.status(500).send(err);
   }
