@@ -1,4 +1,4 @@
-const chatRomeSchema = require("../models/chatRome");
+const chatRomeSchema = require("../models/chatRoom");
 const userSchema = require("../models/newUserModel");
 
 exports.createChatRome = async (req, res) => {

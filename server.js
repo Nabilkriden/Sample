@@ -3,6 +3,11 @@ const mongoose = require("mongoose");
 const http = require("http");
 const socketIo = require("socket.io");
 
+const chatRomeRoute = require("./routes/chatRome");
+const chatMessageRoute = require("./routes/chatMessage");
+const loginRoute = require("./Routes/login");
+const newUserRoute = require("./Routes/newUser");
+
 const cors = require("cors");
 require("dotenv").config();
 
@@ -29,20 +34,19 @@ mongoose
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, OPTIONS, POST, PUT, PATCH , DELETE"
-  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, PATCH , DELETE");
   res.setHeader("Access-Control-Allow-Headers", "*");
   next();
 });
 
 // Inv Users
-const newUserRoute = require("./Routes/newUser");
+
 app.use("/api/invite", newUserRoute);
 // User Login
-const loginRoute = require("./Routes/login");
+
 app.use("/api/login", loginRoute);
+app.use("/api/room", chatRomeRoute);
+app.use("/api/message", chatMessageRoute);
 
 server.listen(port, () => {
   console.log(`server is listening on ${port}`);
