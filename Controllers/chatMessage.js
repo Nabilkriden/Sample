@@ -1,13 +1,13 @@
 const chatMessageSchema = require("../models/chatMessage");
-const userSchema = require("../models/newUserModel");
 const chatRoomSchema = require("../models/chatRoom");
+const Users = require("../Models/newUserModel");
 
 exports.createChatMessage = async (req, res) => {
   try {
     const room = await chatRoomSchema.findById(req.body.roomId);
     !room && res.status(400).json("conversation not found");
     room &&
-      userSchema.findById(req.userId).then((user) => {
+      Users.findById(req.userId).then((user) => {
         const newMessage = new chatMessageSchema({
           roomId: req.body.roomId,
           sender: req.userId,
