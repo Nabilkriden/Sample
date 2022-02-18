@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 
 const chatRomeSchema = mongoose.Schema(
   {
-    romName: String,
+    romName: {
+      type: String,
+      unique: true,
+    },
     adminRome: {
       type: mongoose.Schema.Types.ObjectId,
     },
