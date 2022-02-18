@@ -1,10 +1,10 @@
 const chatRomeSchema = require("../models/chatRoom");
-const userSchema = require("../models/newUserModel");
+const Users = require("../Models/newUserModel");
 
 exports.createChatRome = async (req, res) => {
   if (req.userRole !== "admin") return res.status(400).json({ message: "You need to be admin" });
   try {
-    const subAdmin = await userSchema.findOne({ email: req.body.subAdminEmail });
+    const subAdmin = await Users.findOne({ email: req.body.subAdminEmail });
     if (!subAdmin) throw "wrong Email";
     const newchatRome = new chatRomeSchema({
       romName: req.body.romName,
