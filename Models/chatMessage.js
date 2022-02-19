@@ -16,11 +16,9 @@ const chatMessageSchema = mongoose.Schema(
     },
     senderName: {
       type: String,
-      required: true,
     },
     senderImage: {
       type: String,
-      required: true,
     },
   },
   {

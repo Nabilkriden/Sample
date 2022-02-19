@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const http = require("http");
 const socketIo = require("socket.io");
 
-const chatRomeRoute = require("./routes/chatRome");
+const chatRomeRoute = require("./routes/chatRoom");
 const chatMessageRoute = require("./routes/chatMessage");
 const loginRoute = require("./Routes/login");
 const newUserRoute = require("./Routes/newUser");
@@ -31,14 +31,52 @@ mongoose
   .catch(() => {
     console.error("Database connection error");
   });
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, PATCH , DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "*");
-  next();
+//web soket
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
 });
+let users = [];
+const addUsers = (userId, socketId, userData) => {
+  !users.some((user) => user.userId === userId) && users.push({ userId, socketId, userData });
+};
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
 
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  socket.on("addUser", (userId, userData) => {
+    addUsers(userId, socket.id, userData);
+    io.emit("listOfUsers", users);
+  });
+
+  socket.on("sendMessage", (data, reciverId) => {
+    const user = getUser(reciverId);
+    user && io.to(user.socketId).emit("getMessage", data);
+  });
+
+  socket.on("newRome", (rome, reciverId) => {
+    const user = getUser(reciverId);
+    user && io.to(user.socketId).emit("getRome", rome);
+  });
+
+  socket.on("onDeleteRome", (rome, reciverId) => {
+    const user = getUser(reciverId);
+    user && io.to(user.socketId).emit("romeDeleted", rome);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("a user disconnected");
+    removeUser(socket.id);
+    io.emit("listOfUsers", users);
+  });
+});
 // Inv Users
 
 app.use("/api/invite", newUserRoute);

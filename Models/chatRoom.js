@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
-const chatRomeSchema = mongoose.Schema(
+const chatRoomSchema = mongoose.Schema(
   {
     romName: {
       type: String,
@@ -20,4 +21,5 @@ const chatRomeSchema = mongoose.Schema(
     timestamps: true,
   },
 );
-module.exports = mongoose.model("chatRome", chatRomeSchema);
+
+module.exports = mongoose.model("chatRome", chatRoomSchema);
