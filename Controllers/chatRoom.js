@@ -11,11 +11,11 @@ exports.createChatRoom = async (req, res) => {
     const newchatRome = new chatRomeSchema({
       romName: req.body.romName,
       adminRome: req.userId,
-      subAdmin: subAdmin?._id || "",
+      subAdmin: subAdmin?._id,
       assistent: [],
     });
     const createRome = await newchatRome.save();
-    mailer(req.body.subAdminEmail, "Invitation", "you got invitation to chat room");
+    await mailer(req.body.subAdminEmail, "Invitation", "you got invitation to chat room");
     res.status(201).json(createRome);
   } catch (error) {
     res.status(400).json(error);

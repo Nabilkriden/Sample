@@ -57,8 +57,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", (data, reciverId) => {
-    const user = getUser(reciverId);
-    user && io.to(user.socketId).emit("getMessage", data);
+    reciverId.forEach((element) => {
+      const user = getUser(element);
+      user && io.to(user.socketId).emit("getMessage", data);
+    });
   });
 
   socket.on("newRome", (rome, reciverId) => {
@@ -67,8 +69,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("onDeleteRome", (rome, reciverId) => {
-    const user = getUser(reciverId);
-    user && io.to(user.socketId).emit("romeDeleted", rome);
+    reciverId.forEach((element) => {
+      const user = getUser(element);
+      user && io.to(user.socketId).emit("romeDeleted", rome);
+    });
   });
 
   socket.on("disconnect", () => {
