@@ -9,7 +9,7 @@ exports.createChatMessage = async (req, res) => {
     Users.findById(req.userId).then((user) => {
       const newMessage = new chatMessageSchema({
         roomId: req.body.roomId,
-        sender: req.userId,
+        senderId: req.userId,
         msg: req.body.msg,
         senderName: user.userName || "guest",
         senderImage: user.userImage || "",
