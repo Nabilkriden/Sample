@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const http = require("http");
 const socketIo = require("socket.io");
 
-const chatRomeRoute = require("./routes/chatRoom");
+const chatroomRoute = require("./routes/chatRoom");
 const chatMessageRoute = require("./routes/chatMessage");
 const loginRoute = require("./Routes/login");
 const newUserRoute = require("./Routes/newUser");
@@ -63,15 +63,15 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("newRome", (rome, reciverId) => {
+  socket.on("newRoom", (room, reciverId) => {
     const user = getUser(reciverId);
-    user && io.to(user.socketId).emit("getRome", rome);
+    user && io.to(user.socketId).emit("getRoom", room);
   });
 
-  socket.on("onDeleteRome", (rome, reciverId) => {
+  socket.on("onDeleteroom", (room, reciverId) => {
     reciverId.forEach((element) => {
       const user = getUser(element);
-      user && io.to(user.socketId).emit("romeDeleted", rome);
+      user && io.to(user.socketId).emit("roomDeleted", room);
     });
   });
 
@@ -87,7 +87,7 @@ app.use("/api/invite", newUserRoute);
 // User Login
 
 app.use("/api/login", loginRoute);
-app.use("/api/room", chatRomeRoute);
+app.use("/api/room", chatroomRoute);
 app.use("/api/message", chatMessageRoute);
 
 server.listen(port, () => {

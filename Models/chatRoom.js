@@ -2,17 +2,17 @@ const mongoose = require("mongoose");
 
 const chatRoomSchema = mongoose.Schema(
   {
-    romName: {
+    roomName: {
       type: String,
       unique: true,
     },
-    adminRome: {
+    adminroom: {
       type: mongoose.Schema.Types.ObjectId,
     },
     subAdmin: {
       type: mongoose.Schema.Types.ObjectId,
     },
-    assistent: {
+    assistant: {
       type: [mongoose.Schema.Types.ObjectId],
     },
   },
@@ -21,4 +21,4 @@ const chatRoomSchema = mongoose.Schema(
   },
 );
 
-module.exports = mongoose.model("chatRome", chatRoomSchema);
+module.exports = mongoose.model("chatroom", chatRoomSchema);

@@ -4,7 +4,7 @@ const chatMessageSchema = mongoose.Schema(
   {
     roomId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "chatRome",
+      ref: "chatroom",
     },
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
